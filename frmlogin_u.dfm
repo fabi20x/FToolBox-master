@@ -1,0 +1,223 @@
+object frmLogin: TfrmLogin
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Login / Register'
+  ClientHeight = 315
+  ClientWidth = 293
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lbl1: TLabel
+    Left = 71
+    Top = 54
+    Width = 159
+    Height = 13
+    Caption = 'Please login to unlock all features'
+  end
+  object edtUser: TAdvEdit
+    Left = 71
+    Top = 73
+    Width = 159
+    Height = 21
+    EmptyTextStyle = []
+    FlatLineColor = 11250603
+    FocusColor = clWindow
+    FocusFontColor = 3881787
+    LabelCaption = 'User'
+    LabelPosition = lpLeftCenter
+    LabelFont.Charset = DEFAULT_CHARSET
+    LabelFont.Color = clWindowText
+    LabelFont.Height = -11
+    LabelFont.Name = 'Tahoma'
+    LabelFont.Style = []
+    Lookup.Font.Charset = DEFAULT_CHARSET
+    Lookup.Font.Color = clWindowText
+    Lookup.Font.Height = -11
+    Lookup.Font.Name = 'Arial'
+    Lookup.Font.Style = []
+    Lookup.Separator = ';'
+    Color = clWindow
+    TabOrder = 0
+    Text = ''
+    Visible = True
+    Version = '4.0.0.0'
+  end
+  object edtpassword: TAdvEdit
+    Left = 71
+    Top = 100
+    Width = 159
+    Height = 21
+    EditType = etPassword
+    EmptyTextStyle = []
+    FlatLineColor = 11250603
+    FocusColor = clWindow
+    FocusFontColor = 3881787
+    LabelCaption = 'Password'
+    LabelPosition = lpLeftCenter
+    LabelFont.Charset = DEFAULT_CHARSET
+    LabelFont.Color = clWindowText
+    LabelFont.Height = -11
+    LabelFont.Name = 'Tahoma'
+    LabelFont.Style = []
+    Lookup.Font.Charset = DEFAULT_CHARSET
+    Lookup.Font.Color = clWindowText
+    Lookup.Font.Height = -11
+    Lookup.Font.Name = 'Arial'
+    Lookup.Font.Style = []
+    Lookup.Separator = ';'
+    CanUndo = False
+    Color = clWindow
+    PasswordChar = '*'
+    TabOrder = 1
+    Text = ''
+    Visible = True
+    Version = '4.0.0.0'
+  end
+  object btnLogin: TButton
+    Left = 71
+    Top = 127
+    Width = 159
+    Height = 25
+    Caption = 'Login'
+    TabOrder = 2
+    OnClick = btnLoginClick
+  end
+  object edtLCode: TAdvEdit
+    Left = 71
+    Top = 158
+    Width = 159
+    Height = 21
+    EditType = etPassword
+    EmptyTextStyle = []
+    FlatLineColor = 11250603
+    FocusColor = clWindow
+    FocusFontColor = 3881787
+    LabelCaption = 'Licensecode'
+    LabelPosition = lpLeftCenter
+    LabelFont.Charset = DEFAULT_CHARSET
+    LabelFont.Color = clWindowText
+    LabelFont.Height = -11
+    LabelFont.Name = 'Tahoma'
+    LabelFont.Style = []
+    Lookup.Font.Charset = DEFAULT_CHARSET
+    Lookup.Font.Color = clWindowText
+    Lookup.Font.Height = -11
+    Lookup.Font.Name = 'Arial'
+    Lookup.Font.Style = []
+    Lookup.Separator = ';'
+    CanUndo = False
+    Color = clWindow
+    Enabled = False
+    PasswordChar = '*'
+    TabOrder = 3
+    Text = ''
+    Visible = True
+    Version = '4.0.0.0'
+  end
+  object rg1: TRadioGroup
+    Left = 71
+    Top = 8
+    Width = 159
+    Height = 41
+    Columns = 2
+    ItemIndex = 0
+    Items.Strings = (
+      'login'
+      'register')
+    TabOrder = 4
+    OnClick = rg1Click
+  end
+  object edtTransactid: TAdvEdit
+    Left = 71
+    Top = 185
+    Width = 159
+    Height = 21
+    EditType = etPassword
+    EmptyTextStyle = []
+    FlatLineColor = 11250603
+    FocusColor = clWindow
+    FocusFontColor = 3881787
+    LabelCaption = 'Trans. ID'
+    LabelPosition = lpLeftCenter
+    LabelFont.Charset = DEFAULT_CHARSET
+    LabelFont.Color = clWindowText
+    LabelFont.Height = -11
+    LabelFont.Name = 'Tahoma'
+    LabelFont.Style = []
+    Lookup.Font.Charset = DEFAULT_CHARSET
+    Lookup.Font.Color = clWindowText
+    Lookup.Font.Height = -11
+    Lookup.Font.Name = 'Arial'
+    Lookup.Font.Style = []
+    Lookup.Separator = ';'
+    CanUndo = False
+    Color = clWindow
+    Enabled = False
+    PasswordChar = '*'
+    TabOrder = 5
+    Text = ''
+    Visible = True
+    Version = '4.0.0.0'
+  end
+  object btnverify: TButton
+    Left = 71
+    Top = 212
+    Width = 159
+    Height = 25
+    Caption = 'verify transaction /  license'
+    TabOrder = 6
+    OnClick = btnverifyClick
+  end
+  object btnsendpay: TButton
+    Left = 71
+    Top = 239
+    Width = 159
+    Height = 25
+    Caption = 'send payment'
+    TabOrder = 7
+    OnClick = btnsendpayClick
+  end
+  object pnl1: TPanel
+    Left = 0
+    Top = 274
+    Width = 293
+    Height = 41
+    Align = alBottom
+    TabOrder = 8
+    object btn1: TButton
+      Left = 16
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Close'
+      TabOrder = 0
+      OnClick = btn1Click
+    end
+  end
+  object mycon1: TMyConnection
+    Database = 'u134202417_fluxtool'
+    Username = 'u134202417_fluxtool'
+    Server = '145.14.151.101'
+    LoginPrompt = False
+    Left = 248
+    Top = 16
+    EncryptedPassword = 'DEFFB8FF9AFF97FF9AFF96FF92FFCEFFCDFFCCFFD2FF'
+  end
+  object myqry1: TMyQuery
+    Connection = mycon1
+    Left = 248
+    Top = 72
+  end
+end
