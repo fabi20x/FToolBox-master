@@ -276,7 +276,7 @@ begin
             end;
 
             frmMain.loggedin := true;
-            TimerId := SetTimer(0, 0, 2 * 1000, @CloseMessageBox);
+            TimerId := SetTimer(0, 0, 2 * 500, @CloseMessageBox);
 
             f := CreateMessageDialog('Login successful!', mtCustom, [mbOK]);
             f.Position := poOwnerFormCenter;

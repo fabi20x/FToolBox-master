@@ -1,3 +1,11 @@
+{*******************************************************}
+{                                                       }
+{       FToolBox                                        }
+{                                                       }
+{       Copyright (C) 2022 fabinacci                    }
+{                                                       }
+{*******************************************************}
+
 unit frmMain_u;
 
 interface
@@ -192,8 +200,8 @@ type
     Userpw: string;
     root: string;
     rootpw: string;
-    ServerIP :string;
-    Port : Integer;
+    ServerIP: string;
+    Port: Integer;
   end;
 
 var
@@ -206,7 +214,8 @@ implementation
 
 uses
   frmlogin_u, System.Threading, ClipBrd, System.Net.URLClient,
-  System.Net.HttpClient, System.Net.HttpClientComponent, System.JSON,Datamodule_u;
+  System.Net.HttpClient, System.Net.HttpClientComponent, System.JSON,
+  Datamodule_u;
 
 procedure ClearAdvEdits(Owner: TWinControl);
 var
@@ -338,6 +347,7 @@ begin
 
     Exit;
   end;
+
 
   // Start SSH Session and Installation
   SendSSHCommands(node, SSHSHELL1, mmo1, false);
@@ -1008,14 +1018,12 @@ procedure TfrmMain.SSHSHELL1Error(Sender: TObject; ErrorCode: Integer; const
   Description: string);
 begin
   mmo1.Lines.Add('ERROR:' + Description);
-  Application.ProcessMessages;
 end;
 
 procedure TfrmMain.SSHSHELL1Log(Sender: TObject; LogLevel: Integer; const
   Message, LogType: string);
 begin
   mmo1.Lines.Add(Message);
-  Application.ProcessMessages;
 end;
 
 procedure TfrmMain.SSHSHELL1Stdout(Sender: TObject; Text: string; TextB: TArray<
@@ -1162,7 +1170,6 @@ begin
   TTask.Run(
     procedure
     var
-      i: Integer;
       e: Integer;
       Seconds: double;
       Stopwatch: TStopwatch;
@@ -1176,8 +1183,7 @@ begin
       with SSHSHELL do
       begin
         e := 0;
-        Command := 'ls';
-
+       // Command := 'ls';
       // install curl
         Execute('sudo apt-get install curl');
 
@@ -1185,8 +1191,6 @@ begin
         begin
           if Pos('curl is already the newest version', mmo.Text) > 0 then
             z := 1;
-
-          Sleep(1000);
 
           if (Pos('Do you want to continue? [Y/n]', mmo.Text) > 0) and (e = 0) then
           begin
@@ -1197,8 +1201,9 @@ begin
           if Pos('Processing triggers for libc-bin', mmo.Text) > 0 then
           begin
             z := 1;
-            Sleep(2000);
           end;
+
+          Sleep(1000);
 
           if globalstop = true then
             Exit
@@ -1207,44 +1212,43 @@ begin
         z := 0;
         e := 0;
 
+        // wait for script to be finished and get back to root user input mode
+        while Pos(':~#', mmo.Lines[mmo.Lines.Count - 1]) < 1 do
+          Sleep(1000);
+
         // install npm
-        Execute('sudo apt-get install npm -y');
+            Execute('sudo apt-get install npm -y');
+        sleep(500);
 
         while z = 0 do
         begin
-          if (Pos('npm is already the newest version', mmo.Text) > 0) or (Pos('Setting up npm',
-            mmo.Text) > 0) then
-            z := 1;
-
-          Sleep(1000);
-
           if globalstop = true then
             Exit;
 
+          if (Pos('Processing triggers for libc-bin', mmo.Text) > 0) then
+            z := 1;
+
+          if Pos('Setting up npm', mmo.Text) > 0 then
+            z := 1;
+
          // Check if npm is already installed -> shorter wait time
               if (Pos('npm is already the newest version', mmo.Text) > 0) then
-          begin
             z := 1;
-            e := 1
-          end;
+
         end;
 
-        if e = 1 then
-          Sleep(1000)
-        else
-          for i := 0 to 30 do
-          begin
-            Sleep(1000);
-          end;
-
         // Upload Docker Script to Server with root user
-            UploadScript(root, rootpw, targetfiledocker, sourcefiledocker);
+        UploadScript(root, rootpw, targetfiledocker, sourcefiledocker);
 
         z := 0;
-        Sleep(2000);
+
+        // wait for script to be finished and get back to root user input mode
+        while Pos(':~#', mmo.Lines[mmo.Lines.Count - 1]) < 1 do
+          Sleep(1000);
+
         // Install Docker script
 //      call local file
-        Execute('bash ' + targetfiledocker);
+            Execute('bash ' + targetfiledocker);
         while z = 0 do
         begin
           if Pos('Docker is installed', mmo.Text) > 0 then
@@ -1279,6 +1283,7 @@ begin
             z := 1;
           Sleep(2000);
 
+          // if asked again for user password
           if (Pos('[sudo] password for', mmo.Lines[mmo.Lines.Count - 1]) > 0)
             and (e = 0) then
           begin
@@ -1294,6 +1299,7 @@ begin
       Elapsed := Stopwatch.Elapsed;
       Seconds := Elapsed.TotalSeconds;
       Seconds := Seconds / 60;
+      Stopwatch.Stop;
 
       if Pos('Flux Node Installation finished', mmo.Text) > 0 then
       begin
@@ -1514,8 +1520,7 @@ begin
   SFTP1.Overwrite := true;
   SFTP1.LocalFile := sourcefile;
   SFTP1.RemoteFile := targetfile;
- // SFTP1.DeleteFile(targetdockinst);
-  SFTP1.SSHLogon(edtServerIP.Text, edtPort.Value);
+  SFTP1.SSHLogon(ServerIP, Port);
 
   SFTP1.Upload;
   SFTP1.Free;
